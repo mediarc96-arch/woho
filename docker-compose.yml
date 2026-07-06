@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: woho
+    ports:
+      - '5432:5432'
+    volumes:
+      - woho_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  woho_postgres_data:
