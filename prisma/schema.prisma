@@ -22,6 +22,8 @@ model User {
   travelerConversations Conversation[] @relation("TravelerConversations")
   sentMessages          Message[]      @relation("SentMessages")
   authoredReviews       Review[]       @relation("AuthoredReviews")
+  authoredPosts         CommunityPost[]    @relation("AuthoredPosts")
+  authoredComments      CommunityComment[] @relation("AuthoredComments")
 
   @@map("users")
 }
@@ -158,4 +160,44 @@ model Review {
   @@index([tourId])
   @@index([authorId])
   @@map("reviews")
+}
+
+model CommunityPost {
+  id         String    @id @default(uuid())
+  authorId   String
+  type       PostType
+  country    String
+  city       String
+  travelDate DateTime?
+  title      String
+  content    String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  author   User               @relation("AuthoredPosts", fields: [authorId], references: [id])
+  comments CommunityComment[]
+
+  @@index([country, city])
+  @@index([travelDate])
+  @@index([type])
+  @@map("community_posts")
+}
+
+model CommunityComment {
+  id        String   @id @default(uuid())
+  postId    String
+  authorId  String
+  content   String
+  createdAt DateTime @default(now())
+
+  post   CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author User          @relation("AuthoredComments", fields: [authorId], references: [id])
+
+  @@index([postId, createdAt])
+  @@map("community_comments")
+}
+
+enum PostType {
+  COMPANION
+  INFO
 }

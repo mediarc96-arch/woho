@@ -4,6 +4,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module';
 import { BookingModule } from './modules/booking/booking.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { CommunityModule } from './modules/community/community.module';
 import { HostModule } from './modules/host/host.module';
 import { ReviewModule } from './modules/review/review.module';
 import { TourModule } from './modules/tour/tour.module';
@@ -22,6 +23,7 @@ import { DomainExceptionFilter } from './shared/infrastructure/filters/domain-ex
     ChatModule,
     ReviewModule,
     HostModule,
+    CommunityModule,
   ],
   providers: [
     {
